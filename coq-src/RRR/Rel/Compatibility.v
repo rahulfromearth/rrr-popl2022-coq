@@ -2,7 +2,7 @@ Require Import RRR.Lebesgue.Lebesgue.
 Require Import RRR.Lang.Lang.
 Require Import RRR.Rel.Relations.
 Require Import RRR.Rel.UtilMeasures.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 Require Import Coq.Arith.Minus.
 Require Import Coq.micromega.Lra.
 Require Import FunctionalExtensionality.
@@ -26,14 +26,14 @@ simpl V_bind_exp.
 bind_ktx_proj.
 eapply ERel_ktx_plug with (N := N).
 3:{ apply He. apply Hγ. }
-2:{ omega. }
+2:{ lia. }
 clear.
 intros N' HN' v₁ v₂ Hv.
 destruct Hv as [u₁ [u₂ [w₁ [w₂ [Hv₁ [Hv₂ [Hu Hw]]]]]]].
 subst.
 simpl.
 eapply ERel_monotone with (N := S N').
-2:{ omega. }
+2:{ lia. }
 destruct b.
 + eapply ERel_sss_l.
   { intros. constructor. }
@@ -69,7 +69,7 @@ Proof.
     (* destruct Hv. *)
     simpl.
     eapply ERel_monotone with (N := S N').
-    2:{ omega. }
+    2:{ lia. }
     inversion Hv. destruct x. destruct H0.
     + eapply ERel_sss_l.
       { intros. rewrite H0. eapply sss_then. }
@@ -102,7 +102,7 @@ repeat match goal with
 end.
 eapply ERel_ktx_plug with (N := N).
 3:{ apply Hf. apply Hγ. }
-2:{ omega. }
+2:{ lia. }
 intros N' HN' v₁ v₂ Hv.
 simpl ktx_plug.
 repeat match goal with
@@ -113,14 +113,14 @@ end.
 eapply ERel_ktx_plug with (N := N').
 3:{
   apply He.
-  eapply EnvRel_monotone ; [ apply Hγ | omega ].
+  eapply EnvRel_monotone ; [ apply Hγ | lia ].
 }
-2:{ omega. }
+2:{ lia. }
 clear- Hv. rename N' into N.
 intros N' HN' u₁ u₂ Hu.
 simpl ktx_plug.
 simpl in Hv.
-apply Hv; [ omega | ].
+apply Hv; [ lia | ].
 apply Hu.
 Qed.
 
@@ -143,11 +143,11 @@ repeat match goal with
 end.
 eapply ERel_ktx_plug with (N := N).
 3:{ apply Hf. apply Hγ. }
-2:{ omega. }
+2:{ lia. }
 intros N' HN' v₁ v₂ Hv.
 simpl ktx_plug.
 eapply ERel_monotone with (N := S N').
-2:{ omega. }
+2:{ lia. }
 eapply ERel_sss_l.
 { intros. constructor. }
 eapply ERel_sss_r.
@@ -156,8 +156,8 @@ repeat erewrite V_bind_bind_exp with (g := env_ext _ _).
 1:{
   apply He.
   intro x. destruct x as [|x]; simpl.
-  2:{ eapply VRel_monotone; try apply Hγ. omega. }
-  eapply VRel_monotone; try apply Hv. omega.
+  2:{ eapply VRel_monotone; try apply Hγ. lia. }
+  eapply VRel_monotone; try apply Hv. lia.
 }
 + clear. intro x; destruct x as [|x]; simpl; [reflexivity|].
   erewrite V_bind_map_val, V_bind_val_id, V_map_val_id; reflexivity.
@@ -180,23 +180,23 @@ simpl V_bind_exp.
 bind_ktx_binop1.
 eapply ERel_ktx_plug with (N := N).
 3:{ apply Hf. apply Hγ. }
-2:{ omega. }
+2:{ lia. }
 intros N' HN' v₁ v₂ Hv.
 simpl ktx_plug.
 bind_ktx_binop2.
 eapply ERel_ktx_plug with (N := N').
 3:{
   apply He.
-  eapply EnvRel_monotone ; [ apply Hγ | omega ].
+  eapply EnvRel_monotone ; [ apply Hγ | lia ].
 }
-2:{ omega. }
+2:{ lia. }
 clear - Hv. rename N' into M.
 intros N HN u₁ u₂ Hu.
 simpl ktx_plug.
 simpl in Hv, Hu.
 destruct Hv as [rv [? ?]]. destruct Hu as [ru [? ?]]. subst.
 eapply ERel_monotone with (N := S N).
-2:{ omega. }
+2:{ lia. }
 destruct (binop_interp op (val_real rv) (val_real ru)) eqn:Hop.
 2:{
   assert (stop 0 (exp_binop op (val_real rv) (val_real ru))) as Stop.
@@ -244,7 +244,7 @@ simpl V_bind_exp.
 bind_ktx_score.
 eapply ERel_ktx_plug with (N := N).
 3:{ apply He. apply Hγ. }
-2:{ omega. }
+2:{ lia. }
 clear.
 intros N' HN'. clear. rename N' into N.
 intros v₁ v₂ Hv.
@@ -252,7 +252,7 @@ destruct Hv as [r [Hv₁ Hv₂]].
 subst.
 simpl ktx_plug.
 eapply ERel_monotone with (N := S N).
-2:{ omega. }
+2:{ lia. }
 (* If r ≤ 0 or r > 1, score r is stuck. *)
 assert (
   ¬ (0 < r)%R ∨ ¬ (r ≤ 1)%R →
@@ -292,7 +292,7 @@ destruct N as [|N].
 1:{ apply ORel_O_nonval. intros. ktx_plug_is_val_absurd. }
 assert (VRel ty_unit N val_unit val_unit) as Hv.
 1:{ simpl. auto. }
-apply HK in Hv ; [|omega].
+apply HK in Hv ; [|lia].
 assert (∀ K N t, sss (eval N) t (ktx_plug K (exp_score (val_real r))) t
   (ktx_plug K val_unit) (finite r (Rlt_le _ _ Hr0))) as Step.
 1:{ intros. apply ktx_congruence. unshelve apply sss_score; assumption. }
@@ -321,7 +321,7 @@ simpl V_bind_exp.
 bind_ktx_sample.
 eapply ERel_ktx_plug with (N := N).
 3:{ apply He. apply Hγ. }
-2:{ omega. }
+2:{ lia. }
 clear.
 intros N' HN' v₁ v₂ Hv.
 simpl ktx_plug.
@@ -400,10 +400,10 @@ simpl VRel.
 do 4 eexists. repeat split.
 + eapply VRel_monotone.
   1:{ apply Hv. apply Hγ. }
-  omega.
+  lia.
 + eapply VRel_monotone.
   1:{ apply Hu. apply Hγ. }
-  omega.
+  lia.
 Qed.
 
 Lemma compat_val_fun T U e₁ e₂ :
@@ -429,11 +429,11 @@ split; [|split].
 
 intros N'' HN'' v₁ v₂ Hv. 
 specialize (He N'').
-apply EnvRel_monotone with (N':=N'') in Hγ ; [|omega].
+apply EnvRel_monotone with (N':=N'') in Hγ ; [|lia].
 clear - Hv He Hγ. generalize N'', Hv, He, Hγ. clear N'' Hv He Hγ.
 
 intros N Hv He Hγ.
-apply ERel_monotone with (N := S N). 2:{ omega. }
+apply ERel_monotone with (N := S N). 2:{ lia. }
 eapply ERel_sss_l.
 { intros. constructor. }
 eapply ERel_sss_r.
@@ -473,7 +473,7 @@ split; [|split].
 }
 intros N'' HN'' v₁ v₂ Hv. destruct Hv ; subst.
 
-apply EnvRel_monotone with (N':=N'') in Hγ ; [|omega].
+apply EnvRel_monotone with (N':=N'') in Hγ ; [|lia].
 clear- Wf_e₁ Wf_e₂ He Hγ. generalize He, Hγ. clear He Hγ.
 induction N'' as [| N LoebIH ].
 1:{ intros. apply ERel_O_nonval. intros. ktx_plug_is_val_absurd. }
@@ -487,14 +487,14 @@ repeat erewrite V_bind_bind_exp.
 1:{
   eapply He with (γ₁ := env_ext γ₁ _) (γ₂ := env_ext γ₂ _).
   intro x. destruct x as [|x]; simpl.
-  2:{ specialize (Hγ x). eapply VRel_monotone ; [ apply Hγ | omega ]. }
+  2:{ specialize (Hγ x). eapply VRel_monotone ; [ apply Hγ | lia ]. }
   split; [|split].
   3:{
     intros N' HN' u₁ u₂ Hu; destruct Hu; subst.
-    apply ERel_monotone with (N:=N); try omega.
+    apply ERel_monotone with (N:=N); try lia.
     apply LoebIH.
     { apply He. }
-    { eapply EnvRel_monotone; [ apply Hγ | omega ]. }
+    { eapply EnvRel_monotone; [ apply Hγ | lia ]. }
   }
   1:{
     constructor. eapply V_bind_wf_exp. 1:{ apply Wf_e₁. }
@@ -527,9 +527,9 @@ split; [|split]. 1:{ constructor. } 1:{ constructor. }
 intros N' HN' K₁ K₂ HK.
 destruct N' as [|N'].
 1:{ apply ORel_O_nonval. intros. ktx_plug_is_val_absurd. }
-apply KRel_monotone with (N' := N') in HK. 2:{ omega. }
+apply KRel_monotone with (N' := N') in HK. 2:{ lia. }
 assert (∀ r, ORel N' (ktx_plug K₁ (val_real r)) (ktx_plug K₂ (val_real r))) as HKr.
-1:{ intro r. apply HK. 1:{ omega. } repeat eexists. }
+1:{ intro r. apply HK. 1:{ lia. } repeat eexists. }
 clear- HKr.
 split.
 + rewrite ktx_sample_unif_preserves_μNS.
@@ -572,7 +572,7 @@ split; [|split].
 
 intros N'' HN'' K₁ K₂ HK.
 assert (ERel T N'' (V_bind_exp γ₁ e₁) (V_bind_exp γ₂ e₂)) as He'.
-1:{ eapply He. eapply EnvRel_monotone ; [ apply Hγ | omega ]. }
+1:{ eapply He. eapply EnvRel_monotone ; [ apply Hγ | lia ]. }
 assert (Wf_e₁' : wf_exp ∅→ (V_bind_exp γ₁ e₁) T).
 1:{
   clear- Wf_e₁ Hγ. eapply V_bind_wf_exp. 1:{ apply Wf_e₁. }
@@ -587,7 +587,7 @@ generalize N'', (V_bind_exp γ₁ e₁), (V_bind_exp γ₂ e₂),
   Wf_e₁', Wf_e₂', He', HK.
 clear- HT.
 intros N e₁ e₂ Wf_e₁ Wf_e₂ He HK.
-apply He in HK as Obs_Ke ; [ | omega ].
+apply He in HK as Obs_Ke ; [ | lia ].
 destruct N as [|N].
 1:{ apply ORel_O_nonval. intros. ktx_plug_is_val_absurd. }
 
@@ -604,10 +604,10 @@ assert (KRel T N ktx_hole ktx_hole) as Hhole.
     { destruct Hv as [? [? ?]]; subst. apply ennr_le_refl. }
 }
 assert (ORel N (ktx_plug ktx_hole e₁) (ktx_plug ktx_hole e₂)) as Obs_e.
-1:{ apply He ; [omega|]. apply Hhole. }
+1:{ apply He ; [lia|]. apply Hhole. }
 simpl in Obs_e.
 
-apply ORel_monotone with (N' := N) in Obs_Ke. 2:{ omega. }
+apply ORel_monotone with (N' := N) in Obs_Ke. 2:{ lia. }
 split.
 2:{
   destruct (ennr_0_lt_dec (μNS_inf e₂)) as [NS_e₂|NS_e₂].
@@ -680,10 +680,10 @@ setoid_rewrite μNS_decompose with (e := e₂).
 setoid_rewrite μNS_decompose with (e := e₁).
 setoid_rewrite μNS_ktx_rewrite.
 repeat unshelve erewrite inf_is_lim'.
-5:{ unfold antitone. intros. setoid_rewrite <-μNS_ktx_rewrite. apply μNS_antitone. omega. }
-4:{ unfold antitone. intros. setoid_rewrite <- μNS_decompose. apply μNS_antitone. omega. }
-2:{ apply antitone_has_lim. unfold antitone. intros. setoid_rewrite <- μNS_decompose. apply μNS_antitone. omega. }
-1:{ apply antitone_has_lim. unfold antitone. intros. setoid_rewrite <-μNS_ktx_rewrite. apply μNS_antitone. omega. }
+5:{ unfold antitone. intros. setoid_rewrite <-μNS_ktx_rewrite. apply μNS_antitone. lia. }
+4:{ unfold antitone. intros. setoid_rewrite <- μNS_decompose. apply μNS_antitone. lia. }
+2:{ apply antitone_has_lim. unfold antitone. intros. setoid_rewrite <- μNS_decompose. apply μNS_antitone. lia. }
+1:{ apply antitone_has_lim. unfold antitone. intros. setoid_rewrite <-μNS_ktx_rewrite. apply μNS_antitone. lia. }
 generalize_has_lim.
 (* generalize dependent HasLim.
 generalize dependent HasLim0.
@@ -749,8 +749,8 @@ apply integrand_extensionality_le_meas.
   apply ennr_minus_le_compat_r.
   - apply μNS_le_1.
   - apply μNS_inf_le_1.
-  - apply KRel_monotone with (N' := N) in HK. 2:{ omega. }
-    apply HK. 1:{ omega. }
+  - apply KRel_monotone with (N' := N) in HK. 2:{ lia. }
+    apply HK. 1:{ lia. }
     (* Can this condition be included as an IH in the proof of the
     * fundamental lemma? I think so! *)
     destruct HT as [HT|HT]; subst; simpl.

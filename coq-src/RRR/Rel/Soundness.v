@@ -4,7 +4,7 @@ Require Import RRR.Rel.Relations.
 Require Import RRR.Rel.Compatibility.
 Require Import RRR.Rel.Fundamental.
 Require Import RRR.Rel.Adequacy.
-Require Import Omega.
+Require Import Lia.
 
 Section section_congruence.
 

@@ -1,7 +1,7 @@
 Require Import RRR.Lang.Lang.
 Require Import RRR.Lebesgue.Lebesgue.
 Require Import RRR.Rel.Relations.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 Require Import Coq.Arith.Minus.
 Require Import Coq.micromega.Lra.
 Require Import FunctionalExtensionality.
@@ -27,7 +27,7 @@ repeat match goal with
 | [ |- (0 ≤ _)%ennr ] => apply ennr_le_0
 | [ |- ?x * ?y ≤ ?x ] => replace x with (x * 1) at 2 by apply ennr_mul_1_r
 | [ |- ?x * ?y ≤ ?x * ?z ] => apply ennr_mult_le_compat_l
-end. apply μNS_antitone. omega.
+end. apply μNS_antitone. lia.
 Qed.
 
 Fact εNS_le_ρTV n t K e : εNS t n K e ≤ ρTV t n e full_event.
@@ -754,16 +754,16 @@ rewrite interchange_sup_integration_meas.
   2:{ apply sup_of_constant. intro; ring. }
   rewrite sup_of_constant_minus. apply f_equal2. 1:{ ring. }
   unfold μNS_inf. erewrite inf_antitone with (k := k).
-  2:{ do 3 intro. apply μNS_antitone. omega. }
+  2:{ do 3 intro. apply μNS_antitone. lia. }
   apply f_equal. extensionality n.
-  replace (n + k - k)%nat with n by omega. reflexivity.
+  replace (n + k - k)%nat with n by lia. reflexivity.
 }
-2:{ intros. do 3 intro. apply μTVKT_monotone. omega. }
+2:{ intros. do 3 intro. apply μTVKT_monotone. lia. }
 1:{
   intros [[k [v ?]]|].
   2:{ rewrite ennr_minus_0. do 3 intro. apply ennr_le_refl. }
   do 3 intro. apply ennr_minus_le_compat_r; try apply μNS_le_1.
-  apply μNS_antitone. omega.
+  apply μNS_antitone. lia.
 }
 Qed.
 

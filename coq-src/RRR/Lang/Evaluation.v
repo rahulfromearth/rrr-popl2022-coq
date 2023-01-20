@@ -4,7 +4,7 @@ Require Import RRR.Lang.SmallStep.
 Require Import RRR.Lang.Static RRR.Lang.StaticFacts.
 Require Import RRR.Lebesgue.Lebesgue.
 Require Import Coq.Reals.Reals.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 
 Set Implicit Arguments.
 
@@ -882,13 +882,13 @@ k <= N.
 Proof.
 induction N as [|N IHN]; do 6 intro; intro H.
 + simpl in H.
-  destruct (exp_val_dec e) as [ [u Hu] | ]; inversion H; subst. omega.
+  destruct (exp_val_dec e) as [ [u Hu] | ]; inversion H; subst. lia.
 + simpl in H.
-  destruct (exp_val_dec e) as [ [u Hu] | ]; inversion H; subst. 1:{ omega. }
+  destruct (exp_val_dec e) as [ [u Hu] | ]; inversion H; subst. 1:{ lia. }
   destruct (sss_det (eval N) t e) as [[_t'[_e'[_w[_Hsss Unique]]]] | Q ].
   2:{ inversion H. }
   destruct (ev2v N _ _) as [ [[[? ?] ?] ?] | ] eqn:Q; inversion H; subst.
-  apply IHN in Q. omega.
+  apply IHN in Q. lia.
 Qed.
 
 Lemma ev2v_Some_eval N t e k t' (v : val0) w :

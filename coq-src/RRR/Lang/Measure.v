@@ -1,5 +1,5 @@
 Require Import Coq.Reals.Reals.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 Require Import Coq.Arith.Minus.
 Require Import Coq.micromega.Lra.
 Require Import RRR.Lang.Syntax.
@@ -821,7 +821,7 @@ apply sss_quadfurcate in Step_e_N.
 destruct Step_e_N as [ [Step_e_N Hw] | [ Step_e_N | [ Step_e_N | Step_e_N ]]].
 + erewrite sss_preserves_μNS; try apply Step_e_N.
   apply ennr_mult_le_1_compat; [|apply Hw].
-  apply IHN. omega.
+  apply IHN. lia.
 + destruct Step_e_N as [K [f [? [? [? [? ?]]]]]]. subst.
   erewrite sss_preserves_μNS. 
   2:{ intro. apply ktx_congruence. apply sss_sample_query. assumption. }
@@ -833,18 +833,18 @@ destruct Step_e_N as [ [Step_e_N Hw] | [ Step_e_N | [ Step_e_N | Step_e_N ]]].
   rewrite <- ev2v_ρTV_same_weight.
   destruct (ev2v N t f) as [ [[[? ?] ?] ?] | ]; [cbn|apply ennr_le_0].
   rewrite <- ennr_mul_1_r. apply ennr_mult_le_compat_l.
-  apply IHN. omega.
+  apply IHN. lia.
 + destruct Step_e_N as [K [f [? [? [? [? ?]]]]]]. subst.
   erewrite sss_preserves_μNS. 
   2:{ intro. apply ktx_congruence. apply sss_sample_query_exn; assumption. }
-  rewrite ennr_mul_1_r. apply IHN. omega.
+  rewrite ennr_mul_1_r. apply IHN. lia.
 + destruct Step_e_N as [K [? [? [? ?]]]]. subst.
   rewrite ktx_sample_unif_preserves_μNS.
   rewrite <- integration_πU_lebesgue.
   rewrite <- integration_const_entropy with (f := λ t, 1).
   2:{ intro. ring. }
   apply integrand_extensionality_le. intro t.
-  apply IHN. omega.
+  apply IHN. lia.
 Qed.
 
 Lemma μNS_inf_le_1 e : μNS_inf e ≤ 1.
@@ -923,7 +923,7 @@ rewrite μNS_ktx_rewrite. rewrite ennr_add_assoc. apply ennr_add_eq_compat_r.
 rewrite integration_linear_plus.
 integrand_extensionality t.
 destruct (ev2v (S N) t e) as [[[[k ?] ?] ?] |] eqn:Ev2v. 2:{ ring. }
-destruct (lt_eq_lt_dec k (S N)) as [[|]|], (lt_dec k (S N)), (nat_eq_dec k (S N)); subst; try omega; try ring.
+destruct (lt_eq_lt_dec k (S N)) as [[|]|], (lt_dec k (S N)), (nat_eq_dec k (S N)); subst; try lia; try ring.
 { simpl minus. rewrite <- minus_diag_reverse. rewrite μNS_O. ring. }
-{ apply ev2v_index_bounded in Ev2v. omega. }
+{ apply ev2v_index_bounded in Ev2v. lia. }
 Qed.

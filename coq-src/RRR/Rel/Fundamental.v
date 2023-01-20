@@ -2,7 +2,7 @@ Require Import RRR.Lebesgue.Lebesgue.
 Require Import RRR.Lang.Lang.
 Require Import RRR.Rel.Relations.
 Require Import RRR.Rel.Compatibility.
-Require Import Omega.
+Require Import Lia.
 
 Fixpoint exp_fundamental
 (V : Set) (Γ : V → ty) e T

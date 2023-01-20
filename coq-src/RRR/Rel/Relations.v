@@ -1,5 +1,5 @@
 Require Import RRR.Lebesgue.Lebesgue.
-Require Import Omega.
+Require Import Lia.
 Require Import RRR.Lang.Lang.
 Import RRR.Lang.Syntax.
 Require Import Lra.
@@ -68,9 +68,9 @@ intros e₁ e₂ N O' N' HN'.
 destruct O' as [O'NS O'TV].
 split.
 + eapply ennr_le_trans; [apply O'NS; apply TV|].
-  apply μNS_antitone. omega.
+  apply μNS_antitone. lia.
 + intro V. eapply ennr_le_trans; [|apply O'TV].
-  apply μTV_monotone. omega.
+  apply μTV_monotone. lia.
 Qed.
 
 Lemma KRel_monotone T N K₁ K₂ :
@@ -80,7 +80,7 @@ KRel_fun T N' K₁ K₂.
 Proof.
 unfold KRel_fun.
 intro H. intros. apply H.
-+ omega.
++ lia.
 + assumption.
 Qed.
 
@@ -91,7 +91,7 @@ ERel_fun T N' e₁ e₂.
 Proof.
 unfold ERel_fun.
 intro H. intros. apply H.
-+ omega.
++ lia.
 + assumption.
 Qed.
 
@@ -107,7 +107,7 @@ induction T ; intros N v₁ v₂ Hv N' Hle ; simpl in Hv |- *.
 + destruct Hv as [Wf_v₁ [Wf_v₂ Hv]].
   split; [|split]. 1:{ apply Wf_v₁. } 1:{ apply Wf_v₂. }
   intros N'' Hle' u₁ u₂ Hu. apply Hv.
-  - omega.
+  - lia.
   - apply Hu.
 + destruct Hv as [u₁ [u₂ [w₁ [w₂ [? [? [? ?]]]]]]].
   subst.
@@ -160,7 +160,7 @@ Lemma ERel_O_nonval T e₁ e₂ :
 ERel T O e₁ e₂.
 Proof.
 intros NV. intros N HN K₁ K₂ HK.
-assert (N = O) by omega. subst.
+assert (N = O) by lia. subst.
 apply ORel_O_nonval.
 intros. ktx_plug_is_val_absurd. subst. eapply NV; eauto.
 Qed.
@@ -214,9 +214,9 @@ destruct N'.
   specialize (Hsss N (le_refl _) entropy0).
   inversion Hsss.
 + apply ORel_sss_l with (e₁' := ktx_plug K₁ e₁').
-  1:{ intro t. apply ktx_congruence. apply Hsss ; omega. }
-  apply He. 1:{ omega. }
-  eapply KRel_monotone ; [ apply HK | omega ].
+  1:{ intro t. apply ktx_congruence. apply Hsss ; lia. }
+  apply He. 1:{ lia. }
+  eapply KRel_monotone ; [ apply HK | lia ].
 Qed.
 
 Lemma ERel_sss_r T N e₂ e₂' :
@@ -225,7 +225,7 @@ Lemma ERel_sss_r T N e₂ e₂' :
 ERel T N e₁ e₂.
 Proof.
 intros Hsss e₁ He N' HN' K₁ K₂ HK.
-apply He in HK as Obs ; [|omega].
+apply He in HK as Obs ; [|lia].
 eapply ORel_sss_r with (e₂' := ktx_plug K₂ e₂').
 + intros N₂ t. apply ktx_congruence. apply Hsss.
 + apply Obs.
@@ -237,7 +237,7 @@ ERel T v₁ v₂ N.
 Proof.
 intro Hv.
 intros N' Hle K₁ K₂ HK.
-apply HK ; [ omega | ].
+apply HK ; [ lia | ].
 eapply VRel_monotone ; eauto.
 Qed.
 
@@ -256,9 +256,9 @@ apply He ; [ apply Hle'' | ].
 intros N''' Hle''' v₁ v₂ Hv.
 repeat rewrite <- ktx_plug_comp.
 specialize (HKv N''').
-eapply HKv ; [ omega | | omega | ].
-+ eapply VRel_monotone ; [ eassumption | omega ].
-+ eapply KRel_monotone ; [ eassumption | omega ].
+eapply HKv ; [ lia | | lia | ].
++ eapply VRel_monotone ; [ eassumption | lia ].
++ eapply KRel_monotone ; [ eassumption | lia ].
 Qed.
 
 Lemma VRel_wf_val T N v₁ v₂ :
@@ -301,7 +301,7 @@ Proof.
 intros Hγ N' Hle x.
 eapply VRel_monotone.
 + apply Hγ.
-+ omega.
++ lia.
 Qed.
 
 Lemma EnvRel_wf_env N γ₁ γ₂ :
@@ -336,7 +336,7 @@ intros N' HN' K₁ K₂ HK.
 apply EnvRel_wf_env in Hγ as Wf_γ. destruct Wf_γ as [Wf_γ₁ Wf_γ₂].
 
 specialize (HE N γ₁ γ₂ Hγ).
-apply HE in HK as Obs' ; [|omega].
+apply HE in HK as Obs' ; [|lia].
 destruct Obs' as [Obs' Obs''].
 assert (∀ M, μNS_inf (ktx_plug K₂ (V_bind_exp γ₂ e₂)) ≤ μNS M (ktx_plug K₂ (V_bind_exp γ₂ e₂'))) as NS_e₂'.
 1:{

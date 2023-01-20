@@ -1,5 +1,5 @@
 Require Import Coq.Reals.Reals.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 Require Import Coq.Arith.Minus.
 Require Import Coq.micromega.Lra.
 Require Import RRR.Lang.Syntax.
@@ -445,7 +445,7 @@ destruct Step_n0 as [Q | [Q | [Q | Q]]].
       2:{
         (* apply mutual induction hypothesis *)
         eapply ev2v_S with (n := n) in Ev2v_e_Sn as [? [? ?]]; try exact Ev2v_e_n.
-        subst. assert ((n - k1 = 0)%nat) as P by omega. rewrite P.
+        subst. assert ((n - k1 = 0)%nat) as P by lia. rewrite P.
         rewrite μNS_O, ennr_minus_self, ennr_mul_0_r. apply ennr_le_0.
       }
       rewrite ennr_minus_distr_r. 2:{ apply μNS_le_1. }
@@ -458,11 +458,11 @@ destruct Step_n0 as [Q | [Q | [Q | Q]]].
       Ev2v_e_n. subst.
       apply ennr_mult_le_compat. 2:{ assumption. }
       apply ennr_minus_le_compat_r; try apply μNS_le_1.
-      rewrite <- minus_Sn_m. 2:{ omega. }
+      rewrite <- minus_Sn_m. 2:{ lia. }
       destruct k1.
       - rewrite <- minus_n_O. apply μNS_antitone_S with (n := n).
       - (* apply mutual induction hypothesis *)
-        apply μNS_antitone_S_minus_aux with (n := n). omega.
+        apply μNS_antitone_S_minus_aux with (n := n). lia.
     }
     2:{
       simpl ktx_plug. apply integrand_extensionality_le; intro t.
@@ -521,17 +521,17 @@ destruct Step_n0 as [Q | [Q | [Q | Q]]].
 
 {
 destruct n as [|n].
-1:{ intros. exfalso. omega. }
+1:{ intros. exfalso. lia. }
 induction k as [|k IHk].
 1:{ intro. rewrite μNS_O. apply μNS_le_1. }
 intro H.
 destruct (lt_eq_lt_dec k (n - 1)) as [ [|] | ].
 + (* apply mutual induction hypothesis *)
-  apply μNS_antitone_S_minus_aux with (n := n). omega.
-+ assert (S k = n) as Q. 1:{ omega. } rewrite Q.
+  apply μNS_antitone_S_minus_aux with (n := n). lia.
++ assert (S k = n) as Q. 1:{ lia. } rewrite Q.
   (* apply mutual induction hypothesis *)
   apply μNS_antitone_S with (n := n).
-+ exfalso. omega.
++ exfalso. lia.
 }
 
 {
@@ -672,8 +672,8 @@ Proof.
 unfold antitone. intros N' N HN.
 repeat rewrite μNT_as_diff.
 apply ennr_minus_le_compat.
-4:{ apply μNS_antitone. omega. }
-3:{ apply μTV_monotone. omega. }
+4:{ apply μNS_antitone. lia. }
+3:{ apply μTV_monotone. lia. }
 2:{ apply μTV_le_μNS. }
 1:{ apply μTV_le_μNS. }
 Qed.
@@ -725,7 +725,7 @@ setoid_rewrite ktx_sample_unif_preserves_μTV.
 rewrite interchange_sup_integration.
 2:{
   intro r. intros n n' Nle.
-  apply ennr_mult_le_compat_r. apply μTV_monotone. omega.
+  apply ennr_mult_le_compat_r. apply μTV_monotone. lia.
 }
 integrand_extensionality r.
 rewrite sup_linear_mult_r.
@@ -743,7 +743,7 @@ setoid_rewrite ktx_sample_unif_preserves_μNS.
 rewrite interchange_inf_integration.
 2:{
   intro r. intros n n' Nle.
-  apply ennr_mult_le_compat_r. apply μNS_antitone. omega.
+  apply ennr_mult_le_compat_r. apply μNS_antitone. lia.
 }
 integrand_extensionality r.
 rewrite inf_linear_mult_r.
@@ -796,7 +796,7 @@ intro NS_e. intro K. intro V.
 unfold μTV_sup, μNS_inf.
 rewrite sup_S. 2:{ apply μTV_monotone_S. }
 unshelve erewrite sup_is_lim with (f := λ n, μTV (S n) _ _).
-1:{ unfold monotone. intros. apply μTV_monotone. omega. }
+1:{ unfold monotone. intros. apply μTV_monotone. lia. }
 generalize_has_lim.
 unshelve erewrite sup_is_lim with (f := λ n, μTV n (ktx_plug K e) V).
 1:{ unfold monotone. apply μTV_monotone. }
@@ -854,7 +854,7 @@ intro NS_e. intro K.
 unfold μNS_inf.
 rewrite inf_S. 2:{ apply μNS_antitone_S. }
 unshelve erewrite inf_is_lim with (f := λ n, μNS (S n) _).
-1:{ unfold antitone. intros. apply μNS_antitone. omega. }
+1:{ unfold antitone. intros. apply μNS_antitone. lia. }
 generalize_has_lim.
 unshelve erewrite inf_is_lim with (f := λ n, μNS n (ktx_plug K e)).
 1:{ unfold antitone. apply μNS_antitone. }
@@ -927,9 +927,9 @@ intros.
 destruct (le_dec N' (S N)).
 + apply ennr_le_antisym. 1:{ apply ennr_le_0. }
   erewrite μTV_stuck_S by eassumption.
-  apply μTV_monotone. omega.
-+ destruct N'. 1:{ exfalso. omega. }
-  apply stop_monotone with (N' := N') in H. 2:{ omega. }
+  apply μTV_monotone. lia.
++ destruct N'. 1:{ exfalso. lia. }
+  apply stop_monotone with (N' := N') in H. 2:{ lia. }
   erewrite <- μTV_stuck_S by assumption.
   ring.
 Qed.
@@ -950,6 +950,6 @@ Lemma μTV_sup_le_μNS_inf e V :
 Proof.
 unfold μTV_sup, μNS_inf. apply sup_le_inf.
 3:{ intro. apply μTV_le_μNS. }
-2:{ repeat intro. apply μNS_antitone. omega. }
-1:{ repeat intro. apply μTV_monotone. omega. }
+2:{ repeat intro. apply μNS_antitone. lia. }
+1:{ repeat intro. apply μTV_monotone. lia. }
 Qed.

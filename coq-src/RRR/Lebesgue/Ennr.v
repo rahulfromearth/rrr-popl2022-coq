@@ -14,7 +14,7 @@ Require Import Coq.Reals.Reals.
 Require Import Coq.micromega.Lra.
 Require Import Coq.setoid_ring.Ring_theory.
 Require Import Coq.Logic.ProofIrrelevance.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 Require Import Coq.Arith.Minus.
 
 Require Import RRR.Util.Option.
@@ -751,6 +751,6 @@ specialize (inf_is_glb g) as Q.
 destruct Q as [_ Q]. apply Q.
 unfold is_lower_bound. intros q [n Hq]. subst q.
 destruct (le_dec m n).
-+ apply ennr_le_trans with (r2 := f n). 1:{ apply Hf. omega. } apply Hfg.
-+ apply ennr_le_trans with (r2 := g m). 2:{ apply Hg. omega. } apply Hfg.
++ apply ennr_le_trans with (r2 := f n). 1:{ apply Hf. lia. } apply Hfg.
++ apply ennr_le_trans with (r2 := g m). 2:{ apply Hg. lia. } apply Hfg.
 Qed.

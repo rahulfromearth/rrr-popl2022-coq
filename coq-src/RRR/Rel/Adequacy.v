@@ -1,4 +1,4 @@
-Require Import Omega.
+Require Import Lia.
 Require Import RRR.Lang.Lang.
 Require Import RRR.Lebesgue.Lebesgue.
 Require Import RRR.Rel.Relations.
@@ -10,7 +10,7 @@ ERel_open ∅→ ℝ e₁ e₂ →
 Proof.
 intros [[_ _] He].
 intros N₁.
-assert (N₁ <= N₁) as le_N₁_refl ; [ omega | ].
+assert (N₁ <= N₁) as le_N₁_refl ; [ lia | ].
 assert (EnvRel ∅→ N₁ ∅→ ∅→) as Hempty.
 1:{ intro x ; destruct x. }
 specialize (He N₁ ∅→ ∅→ Hempty).
