@@ -15,7 +15,6 @@ Require Import Coq.micromega.Lra.
 Require Import Coq.setoid_ring.Ring_theory.
 Require Import Coq.Logic.ProofIrrelevance.
 Require Import Coq.micromega.Lia.
-Require Import Coq.Arith.Minus.
 
 Require Import RRR.Util.Option.
 

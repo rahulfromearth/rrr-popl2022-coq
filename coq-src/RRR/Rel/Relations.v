@@ -211,7 +211,7 @@ intros Hsss e₂ He N' HN' K₁ K₂ HK.
 destruct N'.
 + apply ORel_O_nonval.
   intros v Hv. ktx_plug_is_val_absurd. subst.
-  specialize (Hsss N (le_refl _) entropy0).
+  specialize (Hsss N (Nat.le_refl _) entropy0).
   inversion Hsss.
 + apply ORel_sss_l with (e₁' := ktx_plug K₁ e₁').
   1:{ intro t. apply ktx_congruence. apply Hsss ; lia. }

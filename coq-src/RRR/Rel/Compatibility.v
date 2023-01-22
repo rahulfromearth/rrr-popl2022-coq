@@ -3,7 +3,6 @@ Require Import RRR.Lang.Lang.
 Require Import RRR.Rel.Relations.
 Require Import RRR.Rel.UtilMeasures.
 Require Import Coq.micromega.Lia.
-Require Import Coq.Arith.Minus.
 Require Import Coq.micromega.Lra.
 Require Import FunctionalExtensionality.
 

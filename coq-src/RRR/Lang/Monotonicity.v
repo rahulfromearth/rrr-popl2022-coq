@@ -1,6 +1,5 @@
 Require Import Coq.Reals.Reals.
 Require Import Coq.micromega.Lia.
-Require Import Coq.Arith.Minus.
 Require Import Coq.micromega.Lra.
 Require Import RRR.Lang.Syntax.
 Require Import RRR.Lang.Bindings.
@@ -10,6 +9,7 @@ Require Import RRR.Lang.SmallStep.
 Require Import RRR.Lang.Evaluation.
 Require Import RRR.Lang.Measure.
 Require Import RRR.Lebesgue.Lebesgue.
+Require Import RRR.Util.Arith.
 Require Import FunctionalExtensionality.
 
 Set Implicit Arguments.

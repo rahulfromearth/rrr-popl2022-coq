@@ -2,6 +2,7 @@ Require Import Utf8.
 Require Import Reals.
 Require Import Lebesgue.
 Require Import FunctionalExtensionality.
+Require Import RRR.Util.Arith.
 
 Set Implicit Arguments.
 
@@ -70,8 +71,8 @@ destruct (Nat.Even_or_Odd n). {
 
   f_equal.
   fold (Nat.double (Nat.div2 n)).
-  rewrite <- Div2.even_double; auto.
-  apply Even.even_equiv; auto.
+  rewrite <- even_double; auto.
+  apply even_equiv; auto.
 } {
   pose proof (proj2 (Nat.odd_spec n) H).
   rewrite <- Nat.negb_even in H0.
@@ -80,8 +81,8 @@ destruct (Nat.Even_or_Odd n). {
 
   f_equal.
   change (S (Nat.double (Nat.div2 n)) = n).
-  rewrite <- Div2.odd_double; auto.
-  apply Even.odd_equiv; auto.
+  rewrite <- odd_double; auto.
+  apply odd_equiv; auto.
 }
 Qed.
 
