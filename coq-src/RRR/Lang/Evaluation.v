@@ -1087,6 +1087,7 @@ destruct (sss_det (eval N) t e) as [ [t' [e' [w [Step_e_N ?]]]] |Stop_e_N] eqn: 
   rewrite Dec_val_e, Dec_exn_e, Det_sss. ring.
 Qed.
 
+#[export]
 Hint Extern 1 => match goal with
 | [ |- (0 ≤ ?r)%ennr ] => apply ennr_le_0
 | [ |- (?r ≤ ∞)%ennr ] => apply ennr_le_infinity

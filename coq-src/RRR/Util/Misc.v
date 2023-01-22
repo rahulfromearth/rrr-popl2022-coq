@@ -25,6 +25,7 @@ Mostly taken from
 http://coq-club.inria.narkive.com/PbdQR4E7/rewriting-under-abstractions
 </a># *)
 
+#[global]
 Instance functional_ext_rewriting {A B C} (f : (A -> B) -> C) :
   Proper (pointwise_relation A eq ==> eq) f.
 Proof.
@@ -34,6 +35,7 @@ Proof.
   reflexivity.
 Qed.
 
+#[global]
 Instance functional_ext_rewriting2 {A B C D} (f : A -> (B -> C) -> D) :
   Proper (eq ==> pointwise_relation B eq ==> eq) f.
 Proof.
@@ -44,6 +46,7 @@ Proof.
   reflexivity.
 Qed.
 
+#[local]
 Instance refl_respectful {A B RA RB}
          `(sa : subrelation A RA eq)
          `(sb : subrelation B eq RB)
@@ -55,6 +58,7 @@ Proof.
   apply sa; auto.
 Qed.
 
+#[local]
 Instance subrel_eq_respect {A B RA RB}
          `(sa : subrelation A RA eq)
          `(sb : subrelation B eq RB)
@@ -67,6 +71,7 @@ Proof.
   apply sa; auto.
 Qed.
 
+#[global]
 Instance pointwise_eq_ext {A B RB}
          `(sb : subrelation B RB (@eq B))
   : subrelation (pointwise_relation A RB) eq.
@@ -77,6 +82,7 @@ Proof.
   apply (Hfg x).
 Qed.
 
+#[local]
 Instance eq_pointwise {A B RB}
          `(sb : subrelation B (@eq B) RB) :
   subrelation eq (pointwise_relation A RB).

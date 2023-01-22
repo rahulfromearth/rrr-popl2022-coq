@@ -3,6 +3,7 @@ Require Import Lang.Syntax Lang.Bindings.
 Set Implicit Arguments.
 Implicit Types V : Set.
 
+#[export]
 Hint Extern 1 => match goal with
 | [ |- ∀ x : ∅, _ ] => let x := fresh "x" in (intro x ; destruct x)
 | [ x : ∅ |- _ ] => destruct x

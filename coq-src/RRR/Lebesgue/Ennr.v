@@ -52,6 +52,8 @@ subst.
 f_equal.
 apply proof_irrelevance.
 Qed.
+
+#[export]
 Hint Immediate finite_inj : core.
 Ltac Finite := apply finite_inj; try solve [cbn; ring].
 

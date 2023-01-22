@@ -363,6 +363,7 @@ symmetry.
 apply H.
 Qed.
 
+#[local]
 Instance σ_finite_is_interchangeable {A B} (μa : Meas A) (μb : Meas B) :
 σ_finite μa →
 σ_finite μb →
@@ -374,6 +375,7 @@ unfold ">>=".
 apply tonelli ; auto.
 Qed.
 
+#[local]
 Instance score_meas_interchangeable {X} (μX : Meas X) (w : X → R⁺) :
 ∀ {Y} (μy : Meas Y),
 interchangeable μX μy →
@@ -394,6 +396,7 @@ setoid_rewrite integration_wrt_dirac.
 reflexivity.
 Qed.
 
+#[local]
 Instance pushforward_interchangeable
 {X Y} (μ : Meas X) (f : X → Y)
 {Z} (μz : Meas Z) :
@@ -411,6 +414,7 @@ change (
 apply H.
 Qed.
 
+#[local]
 Instance meas_option_interchangeable
 {X} (μ : Meas (option X))
 {Y} (μy : Meas Y) :
